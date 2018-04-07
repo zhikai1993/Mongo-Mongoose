@@ -5,7 +5,7 @@ describe ('Updating an Object/objects in four different ways: ', () => {
   let joe;
 
   beforeEach((done) => {
-    joe = new User({name: 'Joe', postCount: 0});
+    joe = new User({name: 'Joe', likes: 0});
     joe.save()
       .then(() => done());
   });
@@ -30,22 +30,31 @@ describe ('Updating an Object/objects in four different ways: ', () => {
   });
 
   it('Class method update',(done) => {
-    assertName(User.update({name: 'Joe'}, {name: 'Alex'}), done);
+    assertName(
+      User.update({name: 'Joe'}, {name: 'Alex'}),
+      done
+    );
   })
 
   it('Class method findOneAndUpdate',(done) => {
-    assertName(User.findOneAndUpdate({name: 'Joe'}, {name: 'Alex'}), done);
+    assertName(
+      User.findOneAndUpdate({name: 'Joe'}, {name: 'Alex'}),
+      done
+    );
   })
 
   it('Class method findByIdAndUpdate',(done) => {
-    assertName(User.findByIdAndUpdate(joe._id, {name: 'Alex'}), done);
+    assertName(
+      User.findByIdAndUpdate(joe._id, {name: 'Alex'}),
+      done
+    );
   })
 
   it("Mongo Operator 'Inc' increments postNumber by 1", (done) => {
-    User.update({name: 'Joe'}, {$inc: {postCount: 1}})
+    User.update({name: 'Joe'}, {$inc: {likes: 1}})
       .then(() => User.findOne({name: 'Joe'}))
       .then((user) => {
-        assert(user === 1);
+        assert(user.likes === 1);
       });
       done();
   });
