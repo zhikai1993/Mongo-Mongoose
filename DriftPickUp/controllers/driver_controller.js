@@ -6,6 +6,27 @@ module.exports = {
     res.send({hi: 'there'});
   },
 
+  index(req, res, next) {
+    //get request does not contain 'body'
+    // the query contains lng, lat in the url
+    // note: the object proeprty lng and lat will be String because express does not know which type to store
+    const {lng, lat} = req.query;
+
+    Driver.find({
+        'geometry.coordinates': {
+            $nearSphere: {
+                $geometry: {
+                    type: "Point",
+                    coordinates: [parseFloat(lng), parseFloat(lat)]
+                },
+                $maxDistance: 200000
+            }
+        }
+    })
+      .then(drivers => res.send(drivers))
+      .catch(next);
+  },
+
   create(req, res, next) {
     const driverProps = req.body; //this will be the email object
 

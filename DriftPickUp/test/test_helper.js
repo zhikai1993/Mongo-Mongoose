@@ -11,7 +11,10 @@ before(done => {
 
 beforeEach(done => {
   const {drivers } = mongoose.connection.collections;
+  //everyone we are drop a collections, we are killing are the indices as well
   drivers.drop()
+  // next line will ensure that after we drop the collections, we are creating the indices back in
+    .then(() => drivers.ensureIndex({'geometry.coordinates': '2dsphere'}))
     .then(() => done())
     .catch(() => done()); //this catach will happen when first time drop when db is empty
 })
