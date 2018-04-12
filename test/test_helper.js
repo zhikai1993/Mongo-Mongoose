@@ -8,12 +8,16 @@ before((done) => {
     .once('open', () => {done();})
     .on('error', () => {
       console.warn('Warning', error);
-    }); 
+    });
 });
 
 
 beforeEach((done) => {
   mongoose.connection.collections.users.drop(() => {
-    done();
+    mongoose.connection.collections.blogposts.drop(() => {
+      mongoose.connection.collections.comments.drop(() => {
+        done();
+      });
+    });
   });
 });

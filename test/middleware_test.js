@@ -7,7 +7,7 @@ describe('Association', () => {
   let joe, blogPost;
 
   beforeEach((done) => {
-    joe = new User({name: 'Joe'});
+    joe = new User({name: 'Joesephasdasd'});
     blogPost = new BlogPost({title: 'JS is Great', content: 'Yep it really is'});
 
     joe.blogPosts.push(blogPost); // even though we push an instance, it will be able to figure out form its ObjectId
@@ -18,6 +18,12 @@ describe('Association', () => {
   });
 
   it('users clean up dangling blogposts on remove', (done) => {
+    BlogPost.count()
+      .then((count) => {
+        assert(count === 1);
+      });
+
+    //assert (BlogPost.count() === 1);
     joe.remove()
       .then(() => BlogPost.count())
       .then((count) => {

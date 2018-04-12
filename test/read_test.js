@@ -38,7 +38,7 @@ describe('Reading users out of the database', () => {
   });
 
   //pagination sku and limit
-  it ('can skip and limit the result set', (done) => {
+  it('can skip and limit the result set', (done) => {
     User.find({})
       .sort({name: 1}) // sort depends the property 'name', and '1' stands for ascending order
       .skip(1)
@@ -46,7 +46,7 @@ describe('Reading users out of the database', () => {
       .then((users) => {
         assert(users.length === 2);
         assert(users[0].name === 'Joe');
-        assert(users[1].name === 'Maira');
+        assert(users[1].name === 'Maria');
         done();
       })
   })
